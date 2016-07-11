@@ -14,6 +14,7 @@
  * Reference: 
  *
  * (1) http://www.thinkandbuild.it/learn-to-love-auto-layout-programmatically/
+ * (2) http://www.knowstack.com/autolayout-visual-format-language-objective-c-sample-code/
  *
  */
 

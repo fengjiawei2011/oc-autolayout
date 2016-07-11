@@ -24,7 +24,7 @@
 - (void)initView {
 //    [self example_1];
     
-    [self example_3];
+    [self example_5];
 }
 
 
@@ -131,5 +131,49 @@
     [self addContraintsTo:_topNav visualFormat:@"V:[_subNavYellow(50)]"];
     [self addContraintsTo:_topNav visualFormat:@"V:[_subNavRed]-0-[_subNavYellow]"];
     [self addContraintsTo:_topNav visualFormat:@"H:|-0-[_subNavYellow]-0-|"];
+}
+
+
+//play around with three views
+// equal width views
+- (void) example_4 {
+    [self initTopNav];
+    [self initSubNavRed];
+    [self initSubNavYellow];
+    
+    [self.view addSubview:self.subNavRed];
+    [self.view addSubview:self.subNavYellow];
+    [self.view addSubview:self.topNav];
+    
+    [self addContraintsTo:self.view visualFormat:@"V:|-20-[_topNav]-20-|"];
+    [self addContraintsTo:self.view visualFormat:@"V:|-20-[_subNavRed]-20-|"];
+    [self addContraintsTo:self.view visualFormat:@"V:|-20-[_subNavYellow]-20-|"];
+    
+    [self addContraintsTo:self.view visualFormat:@"H:|-20-[_topNav]-20-[_subNavRed]-20-[_subNavYellow]-20-|"];
+    [self addContraintsTo:self.view visualFormat:@"[_topNav(==_subNavRed)]"];
+    [self addContraintsTo:self.view visualFormat:@"[_subNavRed(==_subNavYellow)]"];
+}
+
+//play around with three views
+// using auto layout relationship
+// width ratio = 1:2:4
+- (void) example_5 {
+    [self initTopNav];
+    [self initSubNavRed];
+    [self initSubNavYellow];
+    
+    [self.view addSubview:self.subNavRed];
+    [self.view addSubview:self.subNavYellow];
+    [self.view addSubview:self.topNav];
+    
+    [self addContraintsTo:self.view visualFormat:@"V:|-20-[_topNav]-20-|"];
+    [self addContraintsTo:self.view visualFormat:@"V:|-20-[_subNavRed]-20-|"];
+    [self addContraintsTo:self.view visualFormat:@"V:|-20-[_subNavYellow]-20-|"];
+    
+    [self addContraintsTo:self.view visualFormat:@"H:|-20-[_topNav]-20-[_subNavRed]-20-[_subNavYellow]-20-|"];
+    NSLayoutConstraint *widthConstraintsOne = [NSLayoutConstraint constraintWithItem:_topNav attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_subNavRed attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0];
+    NSLayoutConstraint *widthConstraintsTwo = [NSLayoutConstraint constraintWithItem:_subNavRed attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_subNavYellow attribute:NSLayoutAttributeWidth multiplier:0.5 constant:0.0];
+    [self.view addConstraint:widthConstraintsOne];
+    [self.view addConstraint:widthConstraintsTwo];
 }
 @end
