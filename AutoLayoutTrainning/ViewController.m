@@ -32,24 +32,18 @@
     self.topNav = [UIView new];
     self.topNav.translatesAutoresizingMaskIntoConstraints = NO;
     self.topNav.backgroundColor = [UIColor blueColor];
-    
-    [self.view addSubview:self.topNav];
 }
 
 - (void) initSubNavRed {
     self.subNavRed = [UIView new];
     self.subNavRed.translatesAutoresizingMaskIntoConstraints = NO;
     self.subNavRed.backgroundColor = [UIColor redColor];
-    
-    [self.view addSubview:self.subNavRed];
 }
 
 - (void) initSubNavYellow {
     self.subNavYellow = [UIView new];
     self.subNavYellow.translatesAutoresizingMaskIntoConstraints = NO;
     self.subNavYellow.backgroundColor = [UIColor yellowColor];
-    
-    [self.view addSubview:self.subNavYellow];
 }
 
 -(void)addContraintsTo:(UIView *)view
@@ -85,6 +79,8 @@
     // position contraints are added to the parent of a view
     [self addContraintsTo:self.view visualFormat:@"H:|-20-[_topNav]"];
     [self addContraintsTo:self.view visualFormat:@"V:|-20-[_topNav]"];
+    
+    [self.view addSubview:self.topNav];
 }
 
 //play around with two views
@@ -92,6 +88,9 @@
     
     [self initSubNavRed];
     [self initSubNavYellow];
+    
+    [self.view addSubview:self.subNavRed];
+    [self.view addSubview:self.subNavYellow];
     
     [self addContraintsTo:self.subNavRed visualFormat:@"H:[_subNavRed(100)]"];
     [self addContraintsTo:self.subNavRed visualFormat:@"V:[_subNavRed(100)]"];
@@ -105,13 +104,32 @@
     [self addContraintsTo:self.view visualFormat:@"V:[_subNavRed]-20-[_subNavYellow]"];
     [self addContraintsTo:self.view visualFormat:@"H:|-20-[_subNavYellow]"];
     
+    
 }
 
 //play around with three views
 - (void) example_3 {
     [self initTopNav];
+    [self initSubNavRed];
+    [self initSubNavYellow];
     
+    // must add sub view first, otherwise adding contraints will fail if having
+    // relationship between super and sub view
+    [self.view addSubview:_topNav];
+    [_topNav addSubview:_subNavRed];
+    [_topNav addSubview:_subNavYellow];
+    
+    [self addContraintsTo:_topNav visualFormat:@"V:[_topNav(100)]"];
+    
+    [self addContraintsTo:self.view visualFormat:@"V:|-0-[_topNav]"];
     [self addContraintsTo:self.view visualFormat:@"H:|-0-[_topNav]-0-|"];
-    [self addContraintsTo:self.view visualFormat:@"V:|-0-[_topNav]-0-|"];
+    
+    [self addContraintsTo:_topNav visualFormat:@"V:[_subNavRed(50)]"];
+    [self addContraintsTo:_topNav visualFormat:@"V:|-0-[_subNavRed]"];
+    [self addContraintsTo:_topNav visualFormat:@"H:|-0-[_subNavRed]-0-|"];
+    
+    [self addContraintsTo:_topNav visualFormat:@"V:[_subNavYellow(50)]"];
+    [self addContraintsTo:_topNav visualFormat:@"V:[_subNavRed]-0-[_subNavYellow]"];
+    [self addContraintsTo:_topNav visualFormat:@"H:|-0-[_subNavYellow]-0-|"];
 }
 @end
